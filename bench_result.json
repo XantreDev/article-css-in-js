@@ -1,0 +1,50 @@
+{
+  "mount-deep-tree": [
+    {
+      "name": "css",
+      "total": 5.95,
+      "scripting": 2.66,
+      "rendering": 3.29
+    },
+    {
+      "name": "styled-components",
+      "total": 7.11,
+      "scripting": 4.37,
+      "rendering": 2.74
+    }
+  ],
+  "mount-wide-tree": [
+    {
+      "name": "css",
+      "total": 8.93,
+      "scripting": 3.85,
+      "rendering": 5.08
+    },
+    {
+      "name": "styled-components",
+      "total": 10.1,
+      "scripting": 6.02,
+      "rendering": 4.08
+    }
+  ],
+  "update-dynamic-styles": [
+    {
+      "name": "css",
+      "total": 1.48,
+      "scripting": 1.31,
+      "rendering": 0.17
+    },
+    {
+      "name": "styled-components-fake",
+      "total": 2.41,
+      "scripting": 2.28,
+      "rendering": 0.14
+    },
+    {
+      "name": "styled-components",
+      "total": 8.72,
+      "scripting": 3.03,
+      "rendering": 5.69
+    }
+  ]
+}
