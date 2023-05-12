@@ -1,5 +1,6 @@
 **/node_modules
 /*.json
-!/bench_result.json
 .vscode
+!/bench_result.json
+!/package.json
 /css-in-js-comparsion

@@ -1,0 +1,16 @@
+{
+  "name": "article-videos",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter=\"@styled-components/benchmark\" build",
+    "deploy": "gh-pages -d ./styled-components/packages/benchmarks/dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
+  }
+}
