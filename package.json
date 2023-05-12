@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "pnpm --filter=\"@styled-components/benchmark\" build",
+    "build": "pnpm run --filter=\"@styled-components/benchmarks\" build",
     "deploy": "gh-pages -d ./styled-components/packages/benchmarks/dist"
   },
   "keywords": [],
