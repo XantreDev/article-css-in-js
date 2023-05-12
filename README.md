@@ -90,6 +90,7 @@ Btw we can just use classes and not suffer how to determine what the component H
 
 ### Measuring Performance Overhead:
 
+You can experiment with [benchmark playground](https://xantregodlike.github.io/article-css-in-js/)
 Original benchmark from styled-components repo:
 ![CSS in JS vs CSS](./css_in_js_bench.png)
 
