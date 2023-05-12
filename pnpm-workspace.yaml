@@ -1,0 +1,3 @@
+packages:
+  - "styled-components"
+  - "styled-components/packages/*"

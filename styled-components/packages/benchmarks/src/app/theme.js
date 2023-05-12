@@ -1,11 +1,18 @@
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import { Dimensions, Platform } from 'react-native';
 
 const baseFontSize = 14;
 const baseUnit = 1.3125;
+const canUseDOM = !!(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
 
-const createPlatformLength = multiplier =>
-  Platform.select({ web: `${multiplier}rem`, default: multiplier * baseFontSize });
+const createPlatformLength = (multiplier) =>
+  Platform.select({
+    web: `${multiplier}rem`,
+    default: multiplier * baseFontSize
+  });
 
 /**
  * Exported variables
@@ -51,8 +58,7 @@ export const colors = {
 export const fontFamilies = {
   normal: 'System',
   japan: Platform.select({
-    web:
-      'Arial, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif',
+    web: 'Arial, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif',
     default: 'System'
   }),
   rtl: Platform.select({ web: 'Tahoma, Arial, sans-serif', default: 'System' })
@@ -87,15 +93,17 @@ export const spaces = {
 if (Platform.OS === 'web' && canUseDOM) {
   const { medium, large } = breakpoints;
   const htmlElement = document.documentElement;
-  const setFontSize = width => {
-    const fontSize = width > medium ? (width > large ? '18px' : '17px') : '16px';
+  const setFontSize = (width) => {
+    const fontSize =
+      width > medium ? (width > large ? '18px' : '17px') : '16px';
     if (htmlElement) {
       htmlElement.style.fontSize = fontSize;
     }
   };
 
   setFontSize(Dimensions.get('window').width);
-  Dimensions.addEventListener('change', dimensions => {
+  Dimensions.addEventListener('change', (dimensions) => {
     setFontSize(dimensions.window.width);
   });
 }
+
