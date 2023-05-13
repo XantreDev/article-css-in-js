@@ -1,21 +1,21 @@
-## CSS-in-JS: Is a Bad Idea?
+# CSS-in-JS: A Critical Examination
 
-This article assumes you are familiar with various styling methods.
+This article presumes your familiarity with various styling methods.
 
-### Problems CSS-in-JS aims to solve:
+### CSS-in-JS: Solutions it Aims to Provide:
 
-- Scoped styles: Ensuring styles don't leak to other components unintentionally.
-- Dynamic styles: Adapting styles based on props, state, or other dynamic data.
-- Collocation: Keeping styles and components together for maintainability.
+- Scoped styles: Prevents style leakage to unrelated components.
+- Dynamic styles: Enables style adaptability based on properties, state, or other dynamic data.
+- Collocation: Enhances maintainability by co-locating styles and components.
 
-### Unraveling CSS-in-JS:
+### The Mechanics of CSS-in-JS:
 
-- **Parsing styles**: Convert styles from JavaScript objects or tagged template literals into CSS format.
-- **Generating unique class names**: Create a unique hash-based class name for each set of styles to scope them to specific components.
-- **Handling dynamic styles**: Update styles based on component props or state changes, generate new class names if necessary, and inject the updated styles into the DOM.
-- **Injecting styles into the DOM**: Create a `<style>` element, append it to the `<head>`, and update its content with the generated CSS. _after each injection browser makes style recalculation_
-- **Managing the CSS cache**: Maintain a cache of generated styles to improve performance and prevent unnecessary re-rendering.
-- **Server-side rendering**: Extract generated styles on the server and include them in the initial HTML payload.
+- **Parsing styles**: Transforms styles from JavaScript objects or tagged template literals into CSS format.
+- **Generating unique class names**: Crafts a unique, hash-based class name for each style set, scoping them to designated components.
+- **Handling dynamic styles**: Updates styles based on component properties or state changes, generates new class names if required, and injects the updated styles into the DOM.
+- **Injecting styles into the DOM**: Constructs a `<style>` element, attaches it to the `<head>`, and updates its content with the generated CSS. This action prompts the browser to recalculate styles.
+- **Managing the CSS cache**: Upholds a cache of generated styles to enhance performance and prevent unnecessary re-rendering.
+- **Server-side rendering**: Extracts generated styles on the server and includes them in the initial HTML payload.
 
 ```js
 // Simplified CSS-in-JS implementation
@@ -32,9 +32,9 @@ element.className = className;
 updateDynamicStyles(component);
 ```
 
-## Why `styled` hoc abstraction is a mess
+## The Hurdles of `styled` HOC
 
-Basicly it provides opportunity to encapsulate styles with HTML element
+At its core, `styled` offers a way to encapsulate styles within HTML elements.
 
 ```ts
 const Button = styled.button`
@@ -42,10 +42,9 @@ const Button = styled.button`
 `;
 ```
 
-However, this limits style reusability across elements. 
-Libraries use the `as` prop to solve this, but it creates bad abstractions and complicates TypeScript typing.
+However, this approach hinders style reusability across elements. Libraries offer the `as` prop as a solution, but this often leads to poor abstractions and complicates TypeScript typing.
 
-Somewhere in `styled-components` types
+Check this example from `styled-components` types:
 
 ```ts
 export interface ThemedStyledFunction<
@@ -68,14 +67,14 @@ export interface ThemedStyledFunction<
 }
 ```
 
-Btw, we could simply use classes, avoiding the hassle of identifying or altering component HTML elements.
+Alternatively, we could utilize classes, circumventing the ordeal of identifying or modifying component HTML elements.
 
 ```tsx
 <Button as="a" />;
 // vs
 <>
   <button className={styles.button} />
-  {/* WOW: its revolution, classes will be next hype in frontend development */}
+  {/* WOW: classes are making a comeback in frontend development */}
   <button className={clsx(styles.button, styles.hoverable)} />
   <a className={styles.button} />
 </>;
@@ -83,21 +82,21 @@ Btw, we could simply use classes, avoiding the hassle of identifying or altering
 
 ### Issues with CSS-in-JS:
 
-- Overhead due to runtime transformation
-- Sluggish render phase compared to traditional CSS
-- Additional CSS parser burden on the browser
-- Repeated CSS parsing and injection on value changes
+- Overhead due to runtime transformations
+- Slower rendering phase compared to traditional CSS
+- Additional CSS parser load on the browser
+- Repeated CSS parsing and injection when values change
 
 ### Measuring Performance Overhead:
 
 This benchmark was used in `styled-components` repo for performance overview 
 ([original repo](https://github.com/styled-components/styled-components/tree/main/packages/benchmarks)).
-But it was't fail enough because, styled-components used inline styles for dynamic styles, that can't tell
-anything about performance
+But it was't fair enough because, `styled-components` used inline styles for dynamic styles, that can't tell
+anything about performance of dynamic styles.
 <details>
 <summary>How i fixed this issue</summary>
 
-Initial version:
+Original version:
 ```tsx
 const Dot = styled(View).attrs((p) => ({
   style: { borderBottomColor: p.color },
@@ -132,11 +131,17 @@ const Dot = styled(View)`
 
 </details>
 
+> *Overhead can range from [0.5x-2x] depending on the device or library, but they all use the same technique for styling* 
+> 
+> Benchmark was executed on a laptop with Ryzen 4600h, GTX 1650, 32 GB RAM.
+
 Benchmark results:
 ![CSS in JS vs CSS](./css_in_js_bench.png)
 
-You can experiment with benchmark playground: [here](https://xantregodlike.github.io/article-css-in-js/).
-[source code](https://github.com/XantreGodlike/article-css-in-js/tree/main/styled-components/packages/benchmarks)
+> Feel free to experiment with the benchmark playground: [here](https://xantregodlike.github.io/article-css-in-js/)
+>
+> [*source code*](https://github.com/XantreGodlike/article-css-in-js/tree/main/styled-components/packages/benchmarks)
+
 <details>
 <summary>Fixed benchmark results:</summary>
 
@@ -148,10 +153,10 @@ You can experiment with benchmark playground: [here](https://xantregodlike.githu
 | ------------------ | ----------------------------------------- |
 | Mounting deep tree | 20%                                       |
 | Mounting wide tree | 13.1%                                     |
-| Updating dynamic   | 589.1%                                    |
-| Updating static    | 168.8%                                    |
+| Updating dynamic   | 489.1%                                    |
+| Updating static    | 68.8%                                     |
 
-Performance of styled-components decreases by 4 times when borderBottomColor is moved from inline styles to styled.
+The performance of styled-components decreases fourfold when borderBottomColor is shifted from inline styles to styled.
 
 ### Solutions:
 
@@ -162,6 +167,7 @@ Performance of styled-components decreases by 4 times when borderBottomColor is 
 
 ### Benefits of Utility CSS Approach (Tailwind):
 
+- Framework agnostic
 - JIT compilation of classes for build-time dynamic classes
 - Faster performance
 - Transparent, zero-abstraction styling
