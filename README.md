@@ -1,4 +1,4 @@
-# CSS-in-JS: A Critical Examination
+# CSS-in-JS: Why is this bad?
 
 This article presumes your familiarity with various styling methods.
 
